@@ -1,47 +1,46 @@
-#include defines_includes.h
+#include <Servo.h>
 
+//servo objects
+Servo mtr1;
+Servo mtr2;
+Servo mtr3;
+Servo mtr4;
+Servo mtr5;
+Servo mtr6;
 
-//Opject for PWM control
-Adafruit_PWMServoDriver pwm = Adafruit_PWMServoDriver();
+void setup(){
+    //servo control
+    pinMode(A0,INPUT);
+    pinMode(A1,INPUT);
+    pinMode(A2,INPUT);
+    pinMode(A3,INPUT);
+    pinMode(A4,INPUT);
+    pinMode(A5,INPUT);
 
-
-void setup() {
-    pwm.begin();
-    pwm.setPWMFreq(FREQUENCY);
-    initate90();
+    //servo pins
+    mtr1.attach(3);
+    mtr2.attach(5);
+    mtr3.attach(6);
+    mtr4.attach(9);
+    mtr5.attach(10);
+    mtr6.attach(11);
 }
+
 
 void loop(){
-    moveMotor(mAc,motorA);
-    moveMotor(mBc,motorB);
-    moveMotor(mCc,motorC);
-    moveMotor(mDc,motorD);
-    moveMotor(mEc,motorE);
-    moveMotor(mFc,motorF);
-    delay(50);
-}
-
-
-void moveMotor(int controlIn, int motorOut){
-    
-    int pulse_wide, pulse_width, potVal;
-    // Read values from potentiometer
-    potVal = analogRead(controlIn);
-    
-    // Convert to pulse width
-    pulse_wide = map(potVal, 0, 1023, MIN_PULSE_WIDTH, MAX_PULSE_WIDTH);
-    pulse_width = int(float(pulse_wide) / 1000000 * FREQUENCY * 4096);
-    
-    //Control Motor
-    pwm.setPWM(motorOut, 0, pulse_width);
-}
-
-void initate90 (){
-    //Control Motor
-    pwm.setPWM(motorA, 0, init90v);
-    pwm.setPWM(motorB, 0, init90v);
-    pwm.setPWM(motorC, 0, init90v);
-    pwm.setPWM(motorD, 0, init90v);
-    pwm.setPWM(motorE, 0, init90v);
-    pwm.setPWM(motorF, 0, init90v);
+    //read control
+    int ca,cb,cc,cd,ce,cf;
+    ca = analogRead(A0);
+    cb = analogRead(A1);
+    cc = analogRead(A2);
+    cd = analogRead(A3);
+    ce = analogRead(A4);
+    cf = analogRead(A5);
+    //move servo
+    mtr1.write(map(ca,0,1024,0,180));
+    mtr2.write(map(cb,0,1024,0,180));
+    mtr3.write(map(cc,0,1024,0,180));
+    mtr4.write(map(cd,0,1024,0,180));
+    mtr5.write(map(ce,0,1024,0,180));
+    mtr6.write(map(cf,0,1024,0,180));
 }
